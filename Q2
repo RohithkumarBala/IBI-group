@@ -1,0 +1,34 @@
+The output of the above code will be:
+
+```
+5
+5
+5
+5
+5
+```
+
+Explanation:
+This behavior is due to the way JavaScript handles asynchronous operations and closures. Let's break down what happens step by step:
+
+1. The `for` loop runs five times, with the variable `i` taking the values 0, 1, 2, 3, and 4 in each iteration.
+
+2. Within the loop, there is a `setTimeout` function. The `setTimeout` function schedules a callback to be executed after a specified delay (in this case, 100 milliseconds). However, it does not block the `for` loop, so the loop will continue running, and the value of `i` will eventually become 5.
+
+3. After 100 milliseconds have passed, the callback function inside `setTimeout` is executed. However, when the callback function runs, it accesses the variable `i` from its outer scope. At this point, the loop has already finished running, and the final value of `i` is 5.
+
+4. Since the callback function is a closure, it retains a reference to the variable `i` in its outer scope. When it finally executes after 100 milliseconds, it will print the current value of `i`, which is 5 (the last value of `i` after the loop completed).
+
+5. The callback function is executed five times (due to the `for` loop running five times), and each time it prints the current value of `i`, which is 5 in all cases.
+
+To get the desired output of printing 0, 1, 2, 3, and 4, you can use a closure to capture the value of `i` at each iteration. One way to do this is by using an Immediately Invoked Function Expression (IIFE):
+
+```javascript
+for (var i = 0; i < 5; i++) {
+  (function (num) {
+    setTimeout(() => console.log(num), 100);
+  })(i);
+}
+```
+
+This way, the IIFE captures the current value of `i` in each iteration, and the `num` variable inside the IIFE becomes a separate variable for each iteration. As a result, it will correctly print 0, 1, 2, 3, and 4 as expected.
