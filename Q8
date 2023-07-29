@@ -1,0 +1,23 @@
+The numbers 1, 4, 3, and 2 will be logged to the console when the code is executed. The order of logging is as follows:
+
+1. `console.log(1)` - This is the first statement inside the immediately-invoked function expression (IIFE), so it will be executed first and logs `1` to the console.
+
+2. `setTimeout(function(){console.log(2)}, 1000)` - This is a `setTimeout` function with a delay of 1000 milliseconds (1 second). The function will be executed after the specified delay. So, it schedules the logging of `2` to the console after 1 second, but it won't execute immediately.
+
+3. `setTimeout(function(){console.log(3)}, 0)` - This is another `setTimeout` function with a delay of 0 milliseconds. Even though the delay is 0, the function is still added to the event loop and will be executed once the main thread finishes execution. Since this is happening within an IIFE, the main thread will continue executing other statements in the IIFE before handling the callback from this `setTimeout`.
+
+4. `console.log(4)` - This is the last statement inside the IIFE, so it will be executed after logging `1` to the console but before the `setTimeout` callbacks are executed.
+
+Now, let's break down the sequence:
+
+- `1` is logged first by `console.log(1)`.
+
+- `4` is logged immediately after `1` by `console.log(4)`.
+
+- `3` is logged after `4` by the `setTimeout` with 0 milliseconds delay. Even though the delay is 0, it's still queued in the event loop and waits for the main thread to complete.
+
+- After all the synchronous code in the IIFE is executed, the event loop will check the queue and handle the callback from the `setTimeout` with 0 milliseconds delay. It then logs `3` to the console.
+
+- `2` is logged last after 1 second (1000 milliseconds) has passed since the `setTimeout` with 1000 milliseconds delay was triggered. It logs `2` to the console.
+
+So, the final order of logged numbers will be: `1`, `4`, `3`, and `2`.
