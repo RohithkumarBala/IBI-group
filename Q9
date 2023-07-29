@@ -1,0 +1,24 @@
+The code will output the following to the console:
+
+```
+array 1: length=5 last=j,o,n,e,s
+array 2: length=5 last=j,o,n,e,s
+```
+
+Explanation:
+
+1. `var arr1 = "john".split('');` - This line initializes `arr1` as an array with elements ['j', 'o', 'h', 'n'] after splitting the string "john" by each character.
+
+2. `var arr2 = arr1.reverse();` - This line sets `arr2` to reference the same array as `arr1`, which means they both point to the same underlying array. The `reverse()` method reverses the elements of the array in place and returns a reference to the reversed array.
+
+3. `var arr3 = "jones".split('');` - This line initializes `arr3` as an array with elements ['j', 'o', 'n', 'e', 's'] after splitting the string "jones" by each character.
+
+4. `arr2.push(arr3);` - This line pushes the entire `arr3` array as a single element to the end of `arr2`. So, `arr2` now contains the elements ['j', 'o', 'n', 'e', 's'] and `arr3`.
+
+5. `console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1));` - This line logs the length of `arr1` (which is 5) and the last element of `arr1` (which is 's') using `arr1.slice(-1)`.
+
+6. `console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1));` - This line logs the length of `arr2` (which is 5) and the last element of `arr2` (which is the array `arr3`) using `arr2.slice(-1)`.
+
+The key point to note is that both `arr1` and `arr2` refer to the same array after the `reverse()` operation, so modifying one array will also affect the other. When `arr2` is reversed, `arr1` will also be reversed since they point to the same array. Similarly, when we push `arr3` into `arr2`, it affects `arr1` as well.
+
+As a result, both `arr1` and `arr2` have the same length of 5 and the same last element, which is the array `['j', 'o', 'n', 'e', 's']`.
