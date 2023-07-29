@@ -1,0 +1,28 @@
+Sharding in MongoDB is a technique used to distribute data across multiple servers (referred to as shards) to horizontally scale the database and handle large amounts of data and high traffic. It is one of the key features of MongoDB that allows it to scale out and support the needs of large-scale applications.
+
+When a MongoDB database becomes too large to fit on a single server or encounters high read/write loads, sharding becomes necessary. Sharding works by partitioning the data across multiple shards, which are individual MongoDB instances or replica sets. Each shard contains a subset of the data, and collectively, they form the entire distributed database.
+
+Here's how sharding works in MongoDB:
+
+1. **Shard Key Selection:**
+   The first step in sharding is selecting an appropriate shard key. The shard key is a field or set of fields in the documents of a collection that determines how data is distributed among the shards. The choice of a shard key is crucial, as it affects the performance and efficiency of sharding. An ideal shard key should have the following properties:
+   - High cardinality: Many unique values to distribute the data evenly.
+   - Low update frequency: Avoid frequent updates to prevent data migrations between shards.
+   - Frequently used in queries: To make use of targeted queries.
+
+2. **Config Servers:**
+   MongoDB uses config servers to keep track of metadata related to the sharded cluster. The metadata includes the mapping between the shard key ranges and the corresponding shards that hold the data for those ranges. Typically, there are three config servers for redundancy.
+
+3. **Shard Cluster:**
+   The shard cluster consists of multiple shards, each being an individual MongoDB instance or a replica set. These shards store the actual data. Data distribution across the shards is determined by the shard key value.
+
+4. **Data Distribution:**
+   When a new document is inserted into a sharded collection, MongoDB determines the shard based on the shard key value. Using the shard key, MongoDB routes the document to the appropriate shard. The shard key value is hashed to distribute data uniformly across the shards. MongoDB's balancer, running on the config servers, handles data migrations between shards as the data distribution changes over time.
+
+5. **Queries:**
+   When a query is executed, MongoDB looks at the query's shard key value and routes the request only to the shards that contain relevant data based on the shard key range. This ensures that the query is directed only to the shards that need to be involved in the query's execution, improving query performance.
+
+6. **Scaling:**
+   As the data and load increase, more shards can be added to the cluster to scale out horizontally. MongoDB's ability to add new shards dynamically without application-level changes is a significant advantage.
+
+Sharding in MongoDB allows large-scale applications to handle growing data sets and traffic by distributing the workload across multiple servers. It provides high availability, improved read and write throughput, and the ability to scale horizontally as the data grows, making MongoDB a powerful choice for managing big data and high-performance applications.
